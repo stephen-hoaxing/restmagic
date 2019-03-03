@@ -13,4 +13,9 @@ public class BaseController {
         return "WELCOME";
     }
 
+    @GetMapping(value = "/greet")
+    public String greet() {
+        return "GREET";
+    }
+
 }
