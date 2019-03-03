@@ -1,9 +1,7 @@
 package com.nidal.rest.restexample.resource;
 
-import com.google.common.collect.Maps;
+import com.nidal.rest.restexample.model.User;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Map;
 
 @RestController
 @RequestMapping("/rest")
@@ -21,10 +19,24 @@ public class BaseController {
 
     @GetMapping(value = "/comment/{comment}")
     public @ResponseBody
-    Map<Integer, String> comment(@PathVariable(value = "comment") String comment) {
-        Map<Integer, String> map = Maps.newHashMap();
-        map.put(comment.hashCode(), comment);
-        return map;
+    User comment(@PathVariable(value = "comment") String comment) {
+        if (!comment.contains(" ")) {
+            return null;
+        }
+        String firstName = comment.split(" ")[0];
+        String lastName = comment.split(" ")[1];
+        String email = new StringBuilder()
+                .append(firstName)
+                .append(".")
+                .append(lastName)
+                .append("@gmail.com")
+                .toString();
+        User user = new User();
+        user.setId(1L);
+        user.setFirstName(firstName);
+        user.setLastName(lastName);
+        user.setEmail(email);
+        return user;
     }
 
 }
