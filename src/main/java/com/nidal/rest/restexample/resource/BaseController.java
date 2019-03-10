@@ -1,10 +1,13 @@
 package com.nidal.rest.restexample.resource;
 
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.nidal.rest.restexample.Utils.Utils;
 import com.nidal.rest.restexample.model.User;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Map;
 
 @RestController
@@ -44,6 +47,36 @@ public class BaseController {
         userMap.put(user.getId(), user);
         User u = Utils.nullSafePutValueFromMap(userMap, user.getId(), null);
         return u;
+    }
+
+    @GetMapping("/users")
+    public @ResponseBody
+    Collection<User> getUsers() {
+        Collection<User> users = Lists.newArrayList();
+
+        User u1 = new User();
+        u1.setId(2L);
+        u1.setFirstName("Otis");
+        u1.setLastName("Jackson Jr.");
+        u1.setEmail("madlib@gmail.com");
+
+        User u2 = new User();
+        u2.setId(3L);
+        u2.setFirstName("Norman");
+        u2.setLastName("Osbourne");
+        u2.setEmail("normnan.osbourne@gmail.com");
+
+        User u3 = new User();
+        u3.setId(4L);
+        u3.setFirstName("Bruce");
+        u3.setLastName("Wayne");
+        u3.setEmail("wayne@gmail.com");
+
+        ((ArrayList<User>) users).add(u1);
+        ((ArrayList<User>) users).add(u2);
+        ((ArrayList<User>) users).add(u3);
+
+        return users;
     }
 
 }
