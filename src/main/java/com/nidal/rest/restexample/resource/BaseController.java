@@ -9,10 +9,13 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/rest")
 public class BaseController {
+
+    public Collection<User> userList;
 
     @GetMapping(value = "/welcome")
     public String welcome() {
@@ -51,7 +54,7 @@ public class BaseController {
 
     @GetMapping("/users")
     public @ResponseBody
-    Collection<User> getUsers() {
+    Collection<User> getUserList() {
         Collection<User> users = Lists.newArrayList();
 
         User u1 = new User();
@@ -76,7 +79,19 @@ public class BaseController {
         ((ArrayList<User>) users).add(u2);
         ((ArrayList<User>) users).add(u3);
 
-        return users;
+        this.userList = Lists.newArrayList();
+        this.userList.addAll(users);
+
+        return this.userList;
+    }
+
+    @GetMapping("/user/{name}")
+    public @ResponseBody
+    Collection<User> getUsersByName(@PathVariable(name = "name") final String name) {
+        return this.userList == null ? Lists.newArrayList(new User()) :
+                this.userList.stream()
+                .filter(u -> u.getFirstName().contains(name) || u.getLastName().contains(name))
+                .collect(Collectors.toList());
     }
 
 }
