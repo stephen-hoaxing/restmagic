@@ -6,6 +6,8 @@ import com.nidal.rest.restexample.Utils.Utils;
 import com.nidal.rest.restexample.model.User;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;
@@ -52,9 +54,8 @@ public class BaseController {
         return u;
     }
 
-    @GetMapping("/users")
-    public @ResponseBody
-    Collection<User> getUserList() {
+    @PostConstruct
+    private void load() {
         Collection<User> users = Lists.newArrayList();
 
         User u1 = new User();
@@ -81,7 +82,16 @@ public class BaseController {
 
         this.userList = Lists.newArrayList();
         this.userList.addAll(users);
+    }
 
+    @PreDestroy
+    private void clearUsers() {
+        this.userList.clear();
+    }
+
+    @GetMapping("/users")
+    public @ResponseBody
+    Collection<User> getUserList() {
         return this.userList;
     }
 
