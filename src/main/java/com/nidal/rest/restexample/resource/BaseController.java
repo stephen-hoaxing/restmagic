@@ -56,7 +56,7 @@ public class BaseController {
 
     @PostConstruct
     private void load() {
-        Collection<User> users = Lists.newArrayList();
+        this.userList = Lists.newArrayList();
 
         User u1 = new User();
         u1.setId(2L);
@@ -76,12 +76,16 @@ public class BaseController {
         u3.setLastName("Wayne");
         u3.setEmail("wayne@gmail.com");
 
-        ((ArrayList<User>) users).add(u1);
-        ((ArrayList<User>) users).add(u2);
-        ((ArrayList<User>) users).add(u3);
+        User u4 = new User();
+        u4.setId(5L);
+        u4.setFirstName("Clark");
+        u4.setLastName("Kent");
+        u4.setEmail("kent@gmail.com");
 
-        this.userList = Lists.newArrayList();
-        this.userList.addAll(users);
+        ((ArrayList<User>) this.userList).add(u1);
+        ((ArrayList<User>) this.userList).add(u2);
+        ((ArrayList<User>) this.userList).add(u3);
+        ((ArrayList<User>) this.userList).add(u4);
     }
 
     @PreDestroy
